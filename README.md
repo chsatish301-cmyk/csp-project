@@ -1,4 +1,4 @@
-﻿# Campus Care — Campus Grievance, Resource & Anti-Ragging Management System
+# Campus Care — Campus Grievance, Resource & Anti-Ragging Management System
 
 Campus Care is a modern, unified, full-stack campus operations platform built with **Next.js 16 (App Router)**, **React 19**, **TypeScript**, and **Tailwind CSS**. It provides comprehensive incident tracking, maintenance scheduling, an admin-managed Lost & Found registry, and a dedicated, UGC-compliant **Anti-Ragging Module** with role-based access control (RBAC), end-to-end inquiry workflows, and immutable audit logs.
 
@@ -86,7 +86,7 @@ Campus Care uses Next.js App Router for unified frontend and backend routing:
 | `npm run dev` | Starts local Next.js development server (Turbopack) on `http://localhost:3000` |
 | `npm run build` | Compiles optimized production bundle and runs type validation |
 | `npm run start` | Launches production Next.js server locally on port `3000` (or `PORT`) |
-| `npx tsc --noEmit` | Runs full TypeScript compiler check across the entire project |
+| `npm run lint` | Runs TypeScript compiler type-check (`tsc --noEmit`) |
 
 ---
 
