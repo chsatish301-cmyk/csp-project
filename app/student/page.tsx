@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation"
 
 export default function StudentRedirect() {
-  redirect("/portal/anti-ragging")
+  redirect("/portal")
 }

@@ -19,6 +19,50 @@ const nextConfig = {
       },
     ]
   },
+  async redirects() {
+    return [
+      {
+        source: "/student",
+        destination: "/portal",
+        permanent: false,
+      },
+      {
+        source: "/student/dashboard",
+        destination: "/portal",
+        permanent: false,
+      },
+      {
+        source: "/student/complaints",
+        destination: "/portal/complaints",
+        permanent: false,
+      },
+      {
+        source: "/student/complaints/new",
+        destination: "/portal/new",
+        permanent: false,
+      },
+      {
+        source: "/student/anti-ragging",
+        destination: "/portal/anti-ragging",
+        permanent: false,
+      },
+      {
+        source: "/student/lost-found",
+        destination: "/portal/lost-found",
+        permanent: false,
+      },
+      {
+        source: "/admin/dashboard",
+        destination: "/admin",
+        permanent: false,
+      },
+      {
+        source: "/hod/dashboard",
+        destination: "/hod",
+        permanent: false,
+      },
+    ]
+  },
 }
 
 export default nextConfig

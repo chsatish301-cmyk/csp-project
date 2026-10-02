@@ -1,179 +1,170 @@
-# Campus Care — Anti-Ragging & Campus Grievance Resolution System
+﻿# Campus Care — Campus Grievance, Resource & Anti-Ragging Management System
 
-Campus Care is a modern, responsive, role-based campus grievance and resource management platform built with **Next.js 16**, **React 19**, **TypeScript**, and **Tailwind CSS**. It includes a dedicated, secure **Anti-Ragging Module** with strict role-based access control (RBAC), end-to-end incident tracking, and audit trails.
-
----
-
-## 1. Anti-Ragging Module Overview
-
-The Anti-Ragging module provides a confidential, legal-standard reporting and resolution framework following UGC guidelines:
-
-- **Student Protection**: Zero-tolerance policy, anonymous submission option, confidential evidence storage, and live status tracking with visual timeline progress.
-- **Role Segregation**: Main Administrators verify, assign, monitor, and audit complaints. Department HODs/Sub-Admins conduct inquiries, record disciplinary/corrective actions, and resolve cases.
-- **Auditability**: Every verification, assignment, note, status change, and disciplinary action is logged immutably in the complaint investigation history.
-- **Real-time Notifications**: Triggered on submission, verification, assignment, inquiry updates, and final resolution.
+Campus Care is a modern, unified, full-stack campus operations platform built with **Next.js 16 (App Router)**, **React 19**, **TypeScript**, and **Tailwind CSS**. It provides comprehensive incident tracking, maintenance scheduling, an admin-managed Lost & Found registry, and a dedicated, UGC-compliant **Anti-Ragging Module** with role-based access control (RBAC), end-to-end inquiry workflows, and immutable audit logs.
 
 ---
 
-## 2. Portals & Workflows
+## 1. Project Overview
 
-### Student Workflow
-1. **Awareness & Helplines**: View 24/7 National Anti-Ragging Helpline (1800-180-5522), campus security, and proctor contacts.
-2. **File Complaint**: Secure complaint form with category, incident date/time, location, people involved, detailed description, file/photo attachments, and anonymous mode.
-3. **Track Live Progress**: "My Complaints" dashboard displays interactive status badges and an 6-stage timeline:
-   $$\text{Submitted} \longrightarrow \text{Under Review} \longrightarrow \text{Assigned to HOD} \longrightarrow \text{Investigation in Progress} \longrightarrow \text{Action Taken} \longrightarrow \text{Resolved}$$
-4. **Student Security**: Students cannot alter statuses or access complaints filed by others.
-
-### Admin Workflow
-1. **Oversight Dashboard**: Key metric cards (Total Complaints, New Complaints, Under Review, Assigned, In Progress, Resolved).
-2. **Search & Filter**: Filter by department, status, incident date, or search keywords.
-3. **Verification**: Verify preliminary details to transition complaint to `Under Review`.
-4. **HOD Assignment**: Route the case to the appropriate department HOD/Sub-Admin (or reassign when necessary) with custom instructions.
-5. **Monitoring & Audit**: Monitor inquiry notes, review evidence, inspect actions taken, and audit complete timeline logs.
-
-### HOD / Sub-Admin Workflow
-1. **Department Isolation**: HODs only see complaints assigned to their department/account.
-2. **Active Inquiry**: Change status to `Investigation in Progress`, summon involved parties, review CCTV/witness statements.
-3. **Record Action Taken**: Log official disciplinary actions (e.g., warning letters, parental notifications, mandatory counseling, suspension).
-4. **Resolution**: Mark the complaint as `Resolved` with resolution remarks. Student is notified immediately.
+Campus Care streamlines communication between students, faculty, department heads, maintenance personnel, and campus administrators:
+- **Student & Faculty Portal**: File general campus complaints (electrical, plumbing, civil, network), submit confidential Anti-Ragging reports, browse Lost & Found items, and claim found articles.
+- **Admin Portal**: Campus-wide oversight, incident verification, department routing, user role management, system analytics, and announcement broadcasts.
+- **Department HOD / Sub-Admin Portal**: Department-isolated case investigations, disciplinary action recording, counseling scheduling, and resolution management.
+- **Maintenance Portal**: Assigned task tracking, job status updates, and lost item registration.
+- **Live Notifications & Status Tracking**: Instant updates on complaints, status transitions, and announcements.
 
 ---
 
-## 3. Role-Based Access Control (RBAC)
+## 2. Requirements
 
-| Role | Submit Complaint | View All Complaints | Verify & Assign HOD | Investigate & Take Action | Change Status |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **Student** | ✅ | ❌ (Own only) | ❌ | ❌ | ❌ |
-| **Admin** | ❌ | ✅ (Campus-wide) | ✅ | ❌ (Audits/Monitors) | ✅ |
-| **HOD / Sub-Admin** | ❌ | ❌ (Assigned only) | ❌ | ✅ | ✅ |
-
-Both frontend routes (`/portal`, `/admin`, `/hod`) and backend APIs (`/api/anti-ragging/*`) strictly enforce these authorization rules.
+- **Node.js**: `18.18.0` or higher (tested on Node.js 20, 22, and 24)
+- **Package Manager**: `npm` (v9+) or `pnpm` (v9.15+)
+- **Git**: Required for version control and CI/CD deployment
+- **Operating System**: Windows, macOS, or Linux
 
 ---
 
-## 4. Database Schema & Persistence
+## 3. Installation
 
-Data is persisted in `csp-project/.data/db.json` using the built-in storage engine (`csp-project/lib/store.ts`):
+Clone the repository and install dependencies:
 
-### Users
-- `id` (string)
-- `name` (string)
-- `email` (string, unique)
-- `password` (hashed `salt:hash` via scrypt)
-- `role` (`"student"` | `"admin"` | `"hod"` | `"faculty"` | `"maintenance"`)
-- `studentId` / `employeeId` (string)
-- `department` (string)
-- `year` / `section` (string)
-- `createdAt` / `updatedAt` (ISO timestamp)
+```bash
+# 1. Clone repository
+git clone https://github.com/chsatish301-cmyk/csp-project.git
+cd csp-project
 
-### AntiRaggingComplaints
-- `id` (e.g., `ar_c_1`)
-- `complaintId` (e.g., `AR-2026-000001`)
-- `studentId`, `studentName`, `studentEmail`, `department`, `year`, `section`
-- `category` (`verbal_abuse`, `physical`, `hostile_behavior`, `cyber_ragging`, `extortion`, `sexual_harassment`, `discrimination`, `other`)
-- `incidentDate`, `incidentTime`, `location`, `description`, `peopleInvolved`
-- `anonymous` (boolean)
-- `evidence`, `evidenceAttachments`
-- `status` (`Submitted`, `Under Review`, `Assigned to HOD`, `Investigation in Progress`, `Action Taken`, `Resolved`, `Rejected`)
-- `verifiedBy`, `verifiedByName`, `verifiedAt`
-- `assignedHod`, `assignedHodName`, `assignedDepartment`, `assignedAt`
-- `investigationNotes`, `actionTaken`, `actionTakenAt`, `resolutionRemarks`, `resolvedAt`
-- `createdAt`, `updatedAt`
-
-### ComplaintActions / InvestigationHistory
-- `id` (string)
-- `complaintId` (string)
-- `performedBy` (user ID)
-- `performedByName` (string)
-- `performedByRole` (`"student"` | `"admin"` | `"hod"`)
-- `action` (string)
-- `remarks` (string)
-- `status` (string)
-- `createdAt` (ISO timestamp)
+# 2. Install dependencies
+npm install
+# or if using pnpm:
+pnpm install
+```
 
 ---
 
-## 5. API Overview
+## 4. Environment Variables
 
-| Method | Endpoint | Access | Description |
-| :--- | :--- | :--- | :--- |
-| `POST` | `/api/anti-ragging/complaints` | Student | Submit an anti-ragging complaint |
-| `GET` | `/api/anti-ragging/complaints` | Admin / HOD | Fetch complaints (filtered by role and query params) |
-| `GET` | `/api/anti-ragging/complaints/:id` | Student (own) / HOD (assigned) / Admin | Fetch complaint details and history |
-| `PUT` | `/api/anti-ragging/complaints/:id/verify` | Admin | Verify complaint (sets status to `Under Review`) |
-| `PUT` | `/api/anti-ragging/complaints/:id/assign` | Admin | Assign or reassign complaint to an HOD |
-| `PUT` | `/api/anti-ragging/complaints/:id/status` | HOD / Admin | Update investigation status (`Investigation in Progress`, `Action Taken`, `Resolved`, `Rejected`) |
-| `POST` | `/api/anti-ragging/complaints/:id/actions` | HOD / Admin | Record inquiry notes, remarks, or disciplinary actions taken |
-| `GET` | `/api/anti-ragging/complaints/:id/history` | Authorized | Fetch full audit trail and investigation logs |
-| `GET` | `/api/anti-ragging/my-complaints` | Student | Fetch logged-in student's complaints |
+Copy the example environment file:
+
+```bash
+cp .env.example .env.local
+```
+
+### Environment Configuration (`.env.local` / `.env.example`)
+
+| Variable | Required | Default | Description |
+| :--- | :---: | :--- | :--- |
+| `SESSION_SECRET` | Recommended | `Campus Care-default-secret-change-me` | 32+ character HMAC key used to securely sign session cookies. |
+| `DB_PATH` | Optional | `.data/db.json` | Custom absolute or relative file path for database storage. Automatically set to `/tmp/campus_care_db.json` in serverless environments. |
+| `NEXT_PUBLIC_APP_URL` | Optional | `http://localhost:3000` | Canonical public URL of the deployed application. |
+| `PORT` | Optional | `3000` | Port for production test server. |
 
 ---
 
-## 6. Demo Accounts & Credentials
+## 5. Database Setup & Architecture
 
-All demo accounts use the default password: **`vivek@2006`**
+Campus Care includes an embedded, high-performance file-based JSON database engine with zero external database dependencies:
+- **Location**: Default is `.data/db.json` locally; automatically switches to writable system temporary storage (`os.tmpdir()` / `/tmp`) in serverless environments like Vercel or AWS Lambda.
+- **Configurable**: Override the location at any time using the `DB_PATH` environment variable.
+- **Automatic Seeding**: If the database file is not present, the store automatically initializes with default users, departments, sample resources, announcements, and demo complaints.
+- **Thread & Serverless Safety**: Signed cryptographic session tokens encode verified user identities directly into HTTP-only cookies, ensuring seamless session persistence across serverless invocations.
+
+---
+
+## 6. Frontend & Backend Architecture
+
+Campus Care uses Next.js App Router for unified frontend and backend routing:
+- **Frontend (`/app`)**: Server Components for instant rendering, Client Components with SWR for reactive updates, Tailwind CSS v4 styling, and Lucide icons.
+- **Backend API (`/app/api`)**: Next.js Route Handlers delivering JSON REST APIs with HTTP-only cookie authentication, CORS headers, and RBAC protection.
+- **Custom 404 Handler (`app/not-found.tsx`)**: Friendly, responsive Not Found screen preventing raw error pages.
+
+---
+
+## 7. Development & Production Commands
+
+| Command | Description |
+| :--- | :--- |
+| `npm run dev` | Starts local Next.js development server (Turbopack) on `http://localhost:3000` |
+| `npm run build` | Compiles optimized production bundle and runs type validation |
+| `npm run start` | Launches production Next.js server locally on port `3000` (or `PORT`) |
+| `npx tsc --noEmit` | Runs full TypeScript compiler check across the entire project |
+
+---
+
+## 8. Automated Testing
+
+An automated end-to-end integration and security test suite is located in `tests/test-flow.mjs`.
+
+### Running Tests
+
+1. Start the server (in one terminal):
+   ```bash
+   npm run build
+   npx next start -p 3008
+   ```
+
+2. Run the test suite (in another terminal):
+   ```bash
+   # Linux/macOS
+   TEST_URL="http://127.0.0.1:3008" node tests/test-flow.mjs
+
+   # Windows PowerShell
+   $env:TEST_URL="http://127.0.0.1:3008"; node tests/test-flow.mjs
+   ```
+
+### Tested Scenarios
+- Student authentication and complaint filing (`AR-2026-XXXXXX`)
+- Admin complaint verification and assignment to Department HOD
+- HOD department inquiry recording and resolution
+- Student investigation timeline and audit history retrieval
+- RBAC boundary testing (unauthorized actions blocked with 403 Forbidden)
+
+---
+
+## 9. Deployment (Vercel)
+
+The project is pre-configured for automated deployment on Vercel:
+
+1. **Framework Preset**: Configured as `nextjs` via `vercel.json`.
+2. **Root Directory**: Leave as `./` (default repository root).
+3. **Build Command**: `next build` (or `npm run build`).
+4. **Output Directory**: `.next` (default Next.js output).
+5. **Environment Variables**: Add `SESSION_SECRET` in your Vercel Project Settings under Environment Variables.
+
+Every push to branch `main` on GitHub triggers an automatic production deployment.
+
+---
+
+## 10. Troubleshooting & Fixing 404 Issues
+
+If you encounter a `404 / Page Not Found` error in deployment:
+
+1. **Ensure Vercel Root Directory is `./`**:
+   - In Vercel Project Settings > General > **Root Directory**, ensure it is left blank or set to `./`. If it was mistakenly set to `csp-project`, Vercel cannot find the files since they are at the repository root.
+2. **Next.js Framework Detection**:
+   - `vercel.json` is included in the project with `"framework": "nextjs"`. This ensures Vercel routes dynamic serverless routes through Next.js rather than serving static files.
+3. **Supported Route Aliases**:
+   - Route redirects are defined in `next.config.mjs` so direct navigation or bookmarks to `/student`, `/student/dashboard`, `/student/complaints`, `/admin/dashboard`, or `/hod/dashboard` automatically redirect to the correct portal pages without returning 404.
+4. **Direct URL Refreshing**:
+   - All layouts and pages use `export const dynamic = "force-dynamic"`, ensuring serverless functions dynamically handle refreshed browser requests with active cookies.
+
+---
+
+## 11. Demo Accounts & Credentials
+
+Default demo password for all accounts: **`vivek@2006`**
 
 | Portal | Email | Role | Department | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| **Admin Portal** | `admin@campus.edu` | `admin` | Administration | Full oversight, verification, HOD assignment |
+| **Admin Portal** | `admin@campus.edu` | `admin` | Administration | Campus-wide control, complaint verification, HOD assignment |
 | **HOD Portal** | `hod.cse@campus.edu` | `hod` | CSE | Dr. Alan Turing — CSE Department Head |
 | **HOD Portal** | `hod.ece@campus.edu` | `hod` | ECE | Dr. Claude Shannon — ECE Department Head |
 | **HOD Portal** | `hod.mech@campus.edu` | `hod` | Mechanical | Dr. Nikola Tesla — Mech Department Head |
-| **Student Portal**| `student@campus.edu` | `student` | CSE | Sam Student — Submit & track complaints |
-| **Maintenance** | `maintenance@campus.edu` | `maintenance`| Facilities | Facility & maintenance worker |
+| **Student Portal**| `student@campus.edu` | `student` | CSE | Sam Student — Submit grievances & anti-ragging complaints |
+| **Faculty Portal**| `faculty@campus.edu` | `faculty` | CSE | Prof. Grace Hopper — Faculty member |
+| **Maintenance** | `maintenance@campus.edu` | `maintenance`| Facilities | Campus maintenance engineer |
 
 ---
 
-## 7. How to Run the Project
+## 12. License & Author
 
-### Prerequisites
-- Node.js 18+ (tested on Node.js 22/24)
-- npm or pnpm
-
-### Installation
-```bash
-cd csp-project
-npm install
-```
-
-### Environment Variables (Optional)
-Create a `.env.local` if custom signing secrets are required:
-```env
-SESSION_SECRET=your-custom-production-secret-key
-COOKIE_SECURE=false
-```
-
-### Development Server
-```bash
-npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-### Production Build
-```bash
-npm run build
-npm run start
-```
-
----
-
-## 8. Running Automated Tests
-
-An automated end-to-end integration and security test suite is included in `csp-project/tests/test-flow.mjs`.
-
-To run the test:
-1. Start the server:
-   ```bash
-   cd csp-project
-   npm run start
-   ```
-2. In a separate terminal, execute:
-   ```bash
-   node tests/test-flow.mjs
-   ```
-The test script automatically validates:
-- Student login & complaint creation (`AR-...`).
-- Admin login, complaint verification (`Under Review`), and HOD assignment (`Assigned to HOD`).
-- HOD login, inquiry recording (`Action Taken`), and resolution (`Resolved`).
-- Student audit trail verification.
-- Security checks ensuring students and unrelated HODs cannot execute restricted actions or access foreign complaints.
+Developed for the **Community Service Project (CSP)** — Campus Care System.

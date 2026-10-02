@@ -492,6 +492,12 @@ import path from "path"
 import os from "os"
 
 function getDbPath(): string {
+  if (process.env.DB_PATH) {
+    return process.env.DB_PATH
+  }
+  if (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+    return path.join(os.tmpdir(), "campus_care_db.json")
+  }
   const localPath = path.join(process.cwd(), ".data", "db.json")
   try {
     const dir = path.dirname(localPath)
@@ -559,8 +565,8 @@ function normalizeStatus(st: string): AntiRaggingStatus {
 function loadDb(): DB {
   const dbPath = getDbPath()
   try {
-    if (fs.existsSync(dbPath)) {
-      const raw = fs.readFileSync(dbPath, "utf-8")
+    if (fs.existsSync(/*turbopackIgnore: true*/ dbPath)) {
+      const raw = fs.readFileSync(/*turbopackIgnore: true*/ dbPath, "utf-8")
       const parsed = JSON.parse(raw)
       const initial = seed()
 
