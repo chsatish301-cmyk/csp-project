@@ -11,7 +11,7 @@ export async function fetcher<T = any>(url: string): Promise<T> {
 
 export async function apiSend<T = any>(
   url: string,
-  method: "POST" | "PATCH" | "DELETE" | "PUT",
+  method: "GET" | "POST" | "PATCH" | "DELETE" | "PUT" = "GET",
   body?: unknown,
 ): Promise<T> {
   const res = await fetch(url, {

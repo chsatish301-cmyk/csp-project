@@ -1,6 +1,7 @@
 import type {
   Announcement,
   AntiRaggingComplaint,
+  AntiRaggingStatus,
   Complaint,
   ComplaintAction,
   LostFoundItem,

@@ -192,7 +192,7 @@ export default function AdminAntiRaggingPage() {
               />
             </div>
 
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <Select value={statusFilter} onValueChange={(val) => setStatusFilter(val || "all")}>
               <SelectTrigger className="text-xs">
                 <SelectValue placeholder="All Statuses" />
               </SelectTrigger>
@@ -206,7 +206,7 @@ export default function AdminAntiRaggingPage() {
               </SelectContent>
             </Select>
 
-            <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
+            <Select value={departmentFilter} onValueChange={(val) => setDepartmentFilter(val || "all")}>
               <SelectTrigger className="text-xs">
                 <SelectValue placeholder="All Departments" />
               </SelectTrigger>

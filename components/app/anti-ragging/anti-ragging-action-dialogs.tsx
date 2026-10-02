@@ -308,7 +308,7 @@ export function AdminManageComplaintModal({
                   Route to department HOD/Sub-Admin to carry out investigation and action.
                 </p>
                 <div className="mt-3 flex flex-col gap-2">
-                  <Select value={selectedHodId} onValueChange={setSelectedHodId}>
+                  <Select value={selectedHodId} onValueChange={(val) => setSelectedHodId(val || "")}>
                     <SelectTrigger className="text-xs">
                       <SelectValue placeholder="Select Department HOD..." />
                     </SelectTrigger>

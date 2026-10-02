@@ -88,7 +88,7 @@ export default function HodComplaintsPage() {
               />
             </div>
 
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <Select value={statusFilter} onValueChange={(val) => setStatusFilter(val || "all")}>
               <SelectTrigger className="text-xs">
                 <SelectValue placeholder="All Statuses" />
               </SelectTrigger>
