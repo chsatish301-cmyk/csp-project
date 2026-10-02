@@ -8,7 +8,7 @@ const geistSans = Geist({ subsets: ['latin'], variable: '--font-geist-sans' })
 const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
 
 export const metadata: Metadata = {
-  title: 'CRMCRS — Campus Resource & Complaint Resolution',
+  title: 'Campus care',
   description:
     'Report, track, and resolve campus maintenance complaints. Role-based portals for students, faculty, maintenance staff, and administrators.',
   generator: 'v0.app',

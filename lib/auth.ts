@@ -3,10 +3,10 @@ import crypto from "crypto"
 import { db } from "./store"
 import type { PublicUser, User } from "./types"
 
-export const SESSION_COOKIE = "crmcrs_session"
+export const SESSION_COOKIE = "Campus Care_session"
 
 // Secret used to sign session cookies — in production use an env var
-const SECRET = process.env.SESSION_SECRET || "crmcrs-default-secret-change-me"
+const SECRET = process.env.SESSION_SECRET || "Campus Care-default-secret-change-me"
 
 function sign(value: string): string {
   const hmac = crypto.createHmac("sha256", SECRET).update(value).digest("base64url")

@@ -52,7 +52,7 @@ export default async function HomePage() {
           <div className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
             <Wrench className="size-4" />
           </div>
-          <span className="font-semibold tracking-tight">CRMCRS</span>
+          <span className="font-semibold tracking-tight">Campus Care</span>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost" nativeButton={false} render={<Link href="/login" />}>Sign in</Button>
@@ -70,7 +70,7 @@ export default async function HomePage() {
             Every campus issue, resolved on one platform.
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground text-pretty">
-            CRMCRS connects students, faculty, maintenance staff, and administrators so complaints get
+            Campus Care connects students, faculty, maintenance staff, and administrators so complaints get
             reported, routed, and resolved — fast, transparent, and accountable.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -98,7 +98,7 @@ export default async function HomePage() {
       </main>
 
       <footer className="border-t border-border px-4 py-6 text-center text-sm text-muted-foreground">
-        CRMCRS — Campus Resource & Complaint Resolution System
+        Campus Care — Campus Resource & Complaint Resolution System
       </footer>
     </div>
   )

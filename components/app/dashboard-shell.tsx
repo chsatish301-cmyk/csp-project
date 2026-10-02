@@ -17,6 +17,7 @@ import {
   Wrench,
   BarChart3,
   PlusCircle,
+  ShieldAlert,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -38,12 +39,14 @@ type NavItem = { href: string; label: string; icon: React.ComponentType<{ classN
 const NAV: Record<string, NavItem[]> = {
   student: [
     { href: "/portal", label: "Overview", icon: LayoutDashboard },
+    { href: "/portal/anti-ragging", label: "Anti-Ragging", icon: ShieldAlert },
     { href: "/portal/complaints", label: "My Complaints", icon: ListChecks },
     { href: "/portal/new", label: "New Complaint", icon: PlusCircle },
     { href: "/portal/lost-found", label: "Lost & Found", icon: PackageSearch },
   ],
   faculty: [
     { href: "/portal", label: "Overview", icon: LayoutDashboard },
+    { href: "/portal/anti-ragging", label: "Anti-Ragging", icon: ShieldAlert },
     { href: "/portal/complaints", label: "My Complaints", icon: ListChecks },
     { href: "/portal/new", label: "New Complaint", icon: PlusCircle },
     { href: "/portal/lost-found", label: "Lost & Found", icon: PackageSearch },
@@ -54,12 +57,17 @@ const NAV: Record<string, NavItem[]> = {
   ],
   admin: [
     { href: "/admin", label: "Overview", icon: LayoutDashboard },
+    { href: "/admin/anti-ragging", label: "Anti-Ragging", icon: ShieldAlert },
     { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
     { href: "/admin/complaints", label: "Complaints", icon: ListChecks },
     { href: "/admin/users", label: "Users", icon: Users },
     { href: "/admin/resources", label: "Resources", icon: Boxes },
     { href: "/admin/lost-found", label: "Lost & Found", icon: PackageSearch },
     { href: "/admin/announcements", label: "Announcements", icon: Megaphone },
+  ],
+  hod: [
+    { href: "/hod", label: "Overview", icon: LayoutDashboard },
+    { href: "/hod/complaints", label: "Anti-Ragging", icon: ShieldAlert },
   ],
 }
 
@@ -135,7 +143,7 @@ export function DashboardShell({
             <Wrench className="size-4" />
           </div>
           <div className="leading-tight">
-            <p className="text-sm font-semibold text-sidebar-foreground">CRMCRS</p>
+            <p className="text-sm font-semibold text-sidebar-foreground">Campus Care</p>
             <p className="text-[11px] text-muted-foreground">Campus Resolution</p>
           </div>
         </div>

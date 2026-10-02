@@ -5,13 +5,13 @@ import type { Role, User } from "@/lib/types"
 
 export const dynamic = "force-dynamic"
 
-const ROLES: Role[] = ["student", "faculty", "maintenance", "admin"]
+const ROLES: Role[] = ["student", "faculty", "maintenance", "admin", "hod"]
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null)
   if (!body) return NextResponse.json({ error: "Invalid body" }, { status: 400 })
 
-  const { name, email, password, role, department, hostel } = body
+  const { name, email, password, role, department, hostel, studentId, employeeId, mobileNumber, year, section } = body
   if (!name || !email || !password || !role) {
     return NextResponse.json({ error: "Name, email, password and role are required." }, { status: 400 })
   }
@@ -34,7 +34,13 @@ export async function POST(req: Request) {
     role,
     department: department ? String(department) : null,
     hostel: hostel ? String(hostel) : null,
+    studentId: studentId ? String(studentId) : role === "student" ? `STU-${Date.now().toString().slice(-4)}` : null,
+    employeeId: employeeId ? String(employeeId) : (role === "hod" || role === "admin" || role === "maintenance") ? `EMP-${Date.now().toString().slice(-4)}` : null,
+    mobileNumber: mobileNumber ? String(mobileNumber) : null,
+    year: year ? String(year) : null,
+    section: section ? String(section) : null,
     createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   }
   db.users.push(user)
   saveDb()

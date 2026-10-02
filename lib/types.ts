@@ -1,4 +1,4 @@
-export type Role = "student" | "faculty" | "maintenance" | "admin"
+export type Role = "student" | "faculty" | "maintenance" | "admin" | "hod"
 
 export type ComplaintStatus = "pending" | "assigned" | "in_progress" | "resolved" | "rejected"
 export type Priority = "low" | "medium" | "high" | "urgent"
@@ -20,7 +20,13 @@ export interface User {
   role: Role
   department: string | null
   hostel: string | null
+  studentId?: string | null
+  employeeId?: string | null
+  mobileNumber?: string | null
+  year?: string | null
+  section?: string | null
   createdAt: string
+  updatedAt?: string
 }
 
 export type PublicUser = Omit<User, "password">
@@ -102,3 +108,78 @@ export interface Announcement {
   authorName: string
   createdAt: string
 }
+
+export type AntiRaggingStatus =
+  | "Submitted"
+  | "Under Review"
+  | "Assigned to HOD"
+  | "Investigation in Progress"
+  | "Action Taken"
+  | "Resolved"
+  | "Rejected"
+
+export type AntiRaggingCategory =
+  | "verbal_abuse"
+  | "physical"
+  | "hostile_behavior"
+  | "cyber_ragging"
+  | "extortion"
+  | "sexual_harassment"
+  | "discrimination"
+  | "other"
+
+export interface EvidenceAttachment {
+  name: string
+  url?: string
+  type?: string
+  size?: number
+}
+
+export interface AntiRaggingComplaint {
+  id: string
+  complaintId: string // e.g. AR-2026-000001
+  studentId: string
+  studentName: string
+  studentEmail: string
+  department: string
+  year?: string
+  section?: string
+  category: AntiRaggingCategory
+  incidentDate: string
+  incidentTime?: string
+  location: string
+  description: string
+  peopleInvolved: string
+  anonymous: boolean
+  evidence: string
+  evidenceAttachments?: EvidenceAttachment[]
+  status: AntiRaggingStatus
+  verifiedBy?: string | null
+  verifiedByName?: string | null
+  verifiedAt?: string | null
+  assignedHod?: string | null
+  assignedHodName?: string | null
+  assignedDepartment?: string | null
+  assignedAt?: string | null
+  investigationNotes?: string | null
+  actionTaken?: string | null
+  actionTakenAt?: string | null
+  resolutionRemarks?: string | null
+  rejectionReason?: string | null
+  createdAt: string
+  updatedAt: string
+  resolvedAt?: string | null
+}
+
+export interface ComplaintAction {
+  id: string
+  complaintId: string
+  performedBy: string
+  performedByName: string
+  performedByRole: Role
+  action: string
+  remarks: string
+  status: AntiRaggingStatus
+  createdAt: string
+}
+

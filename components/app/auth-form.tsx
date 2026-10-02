@@ -61,7 +61,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
           <div className="flex size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
             <Wrench className="size-5" />
           </div>
-          <span className="text-lg font-semibold tracking-tight">CRMCRS</span>
+          <span className="text-lg font-semibold tracking-tight">Campus Care</span>
         </Link>
         <h1 className="text-2xl font-semibold tracking-tight text-balance">
           {isRegister ? "Create your account" : "Sign in to your account"}
@@ -116,6 +116,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
                 <SelectContent>
                   <SelectItem value="student">Student</SelectItem>
                   <SelectItem value="faculty">Faculty</SelectItem>
+                  <SelectItem value="hod">HOD / Sub-Admin</SelectItem>
                   <SelectItem value="maintenance">Maintenance Staff</SelectItem>
                   <SelectItem value="admin">Administrator</SelectItem>
                 </SelectContent>
@@ -153,7 +154,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
       {!isRegister && (
         <div className="mt-6 rounded-lg border border-border bg-muted/40 p-3 text-xs text-muted-foreground">
           <p className="mb-1 font-medium text-foreground">Demo accounts (password: vivek@2006)</p>
-          <p>admin@campus.edu · maintenance@campus.edu · student@campus.edu · faculty@campus.edu</p>
+          <p>admin@campus.edu · hod.cse@campus.edu (HOD) · student@campus.edu · maintenance@campus.edu</p>
         </div>
       )}
     </div>

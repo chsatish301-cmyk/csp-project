@@ -11,7 +11,7 @@ export async function fetcher<T = any>(url: string): Promise<T> {
 
 export async function apiSend<T = any>(
   url: string,
-  method: "POST" | "PATCH" | "DELETE",
+  method: "POST" | "PATCH" | "DELETE" | "PUT",
   body?: unknown,
 ): Promise<T> {
   const res = await fetch(url, {
@@ -54,12 +54,35 @@ export const ROLE_LABELS: Record<Role, string> = {
   faculty: "Faculty",
   maintenance: "Maintenance",
   admin: "Administrator",
+  hod: "HOD / Sub-Admin",
 }
 
 export function roleHome(role: Role): string {
   if (role === "admin") return "/admin"
+  if (role === "hod") return "/hod"
   if (role === "maintenance") return "/maintenance"
   return "/portal"
+}
+
+export const AR_CATEGORY_LABELS: Record<string, string> = {
+  verbal_abuse: "Verbal Abuse & Insults",
+  physical: "Physical Assault / Threat",
+  hostile_behavior: "Hostile Behavior & Bullying",
+  cyber_ragging: "Cyber Ragging & Online Abuse",
+  extortion: "Extortion / Financial Coercion",
+  sexual_harassment: "Sexual Harassment",
+  discrimination: "Discrimination / Target Harassment",
+  other: "Other Form of Ragging",
+}
+
+export const AR_STATUS_LABELS: Record<string, string> = {
+  "Submitted": "Submitted",
+  "Under Review": "Under Review",
+  "Assigned to HOD": "Assigned to HOD",
+  "Investigation in Progress": "Investigation in Progress",
+  "Action Taken": "Action Taken",
+  "Resolved": "Resolved",
+  "Rejected": "Rejected",
 }
 
 export function timeAgo(iso: string): string {
